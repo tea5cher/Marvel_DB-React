@@ -7,6 +7,8 @@ import MarvelService from '../../services/MarvelService';
 import './randomChar.scss';
 import mjolnir from '../../resources/img/mjolnir.png';
 
+
+
 class RandomChar extends Component {
     constructor(props){
         super(props);      
@@ -21,8 +23,16 @@ class RandomChar extends Component {
 
     componentDidMount() {
         this.updateChar();
-
         // this.timerId = setInterval(this.updateChar, 3000)
+    }
+    
+    updateChar = () => {
+        const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000);
+        this.onCharLoading()
+        this.marvelService
+            .getCharacter(id)
+                .then(this.onCharLoaded)
+                .catch(this.onError)
     }
     
     componentWillUnmount() {
@@ -44,13 +54,10 @@ class RandomChar extends Component {
         })
     }
 
-    updateChar = () => {
-        console.log('zapros')
-        const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000);
-        this.marvelService
-            .getCharacter(id)
-                .then(this.onCharLoaded)
-                .catch(this.onError)
+    onCharLoading = () => {
+        this.setState({
+            loading: true,
+        })
     }
 
     
@@ -87,10 +94,10 @@ class RandomChar extends Component {
 }
 
 const View = ({char}) => {
+    
     const {name, description, thumbnail, homepage, wiki} = char;
 
     let clazz = "randomchar__img";
-    // console.log(objectFit);
     if (char.thumbnail.substring(0, char.thumbnail.length - 4) === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available' ) {
             clazz = "randomchar__img-contain";
            
