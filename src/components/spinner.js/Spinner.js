@@ -1,8 +1,65 @@
 const Spinner = () => {
     return (
-        <svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.0" width="200px" height="200px" viewBox="0 0 128 128" xml:space="preserve"><rect x="0" y="0" width="100%" height="100%" fill="#FFFFFF" /><g><path fill="#e4b8bd" d="M99.359,10.919a60.763,60.763,0,1,0,0,106.162A63.751,63.751,0,1,1,99.359,10.919Z"/><animateTransform attributeName="transform" type="rotate" from="0 64 64" to="360 64 64" dur="1080ms" repeatCount="indefinite"></animateTransform></g><g><path fill="#c76a75" d="M28.641,117.081a60.763,60.763,0,1,0,0-106.162A63.751,63.751,0,1,1,28.641,117.081Z"/><animateTransform attributeName="transform" type="rotate" from="0 64 64" to="360 64 64" dur="1620ms" repeatCount="indefinite"></animateTransform></g><g><path fill="#9f0013" d="M117.081,99.313a60.763,60.763,0,1,0-106.162,0A63.751,63.751,0,1,1,117.081,99.313Z"/><animateTransform attributeName="transform" type="rotate" from="0 64 64" to="360 64 64" dur="3240ms" repeatCount="indefinite"></animateTransform></g></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" style={{margin: '0 auto', background: 'none', display: 'block'}} width="200px" height="200px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+            <g transform="translate(80,50)">
+            <g transform="rotate(0)">
+            <circle cx="0" cy="0" r="7" fill="#1c4595" fillOpacity="1">
+            <animateTransform attributeName="transform" type="scale" begin="-0.875s" values="1.5 1.5;1 1" keyTimes="0;1" dur="1s" repeatCount="indefinite"></animateTransform>
+            <animate attributeName="fillOpacity" keyTimes="0;1" dur="1s" repeatCount="indefinite" values="1;0" begin="-0.875s"></animate>
+            </circle>
+            </g>
+            </g><g transform="translate(71.21320343559643,71.21320343559643)">
+            <g transform="rotate(45)">
+            <circle cx="0" cy="0" r="7" fill="#1c4595" fillOpacity="0.875">
+            <animateTransform attributeName="transform" type="scale" begin="-0.75s" values="1.5 1.5;1 1" keyTimes="0;1" dur="1s" repeatCount="indefinite"></animateTransform>
+            <animate attributeName="fillOpacity" keyTimes="0;1" dur="1s" repeatCount="indefinite" values="1;0" begin="-0.75s"></animate>
+            </circle>
+            </g>
+            </g><g transform="translate(50,80)">
+            <g transform="rotate(90)">
+            <circle cx="0" cy="0" r="7" fill="#1c4595" fillOpacity="0.75">
+            <animateTransform attributeName="transform" type="scale" begin="-0.625s" values="1.5 1.5;1 1" keyTimes="0;1" dur="1s" repeatCount="indefinite"></animateTransform>
+            <animate attributeName="fillOpacity" keyTimes="0;1" dur="1s" repeatCount="indefinite" values="1;0" begin="-0.625s"></animate>
+            </circle>
+            </g>
+            </g><g transform="translate(28.786796564403577,71.21320343559643)">
+            <g transform="rotate(135)">
+            <circle cx="0" cy="0" r="7" fill="#1c4595" fillOpacity="0.625">
+            <animateTransform attributeName="transform" type="scale" begin="-0.5s" values="1.5 1.5;1 1" keyTimes="0;1" dur="1s" repeatCount="indefinite"></animateTransform>
+            <animate attributeName="fillOpacity" keyTimes="0;1" dur="1s" repeatCount="indefinite" values="1;0" begin="-0.5s"></animate>
+            </circle>
+            </g>
+            </g><g transform="translate(20,50.00000000000001)">
+            <g transform="rotate(180)">
+            <circle cx="0" cy="0" r="7" fill="#1c4595" fillOpacity="0.5">
+            <animateTransform attributeName="transform" type="scale" begin="-0.375s" values="1.5 1.5;1 1" keyTimes="0;1" dur="1s" repeatCount="indefinite"></animateTransform>
+            <animate attributeName="fillOpacity" keyTimes="0;1" dur="1s" repeatCount="indefinite" values="1;0" begin="-0.375s"></animate>
+            </circle>
+            </g>
+            </g><g transform="translate(28.78679656440357,28.786796564403577)">
+            <g transform="rotate(225)">
+            <circle cx="0" cy="0" r="7" fill="#1c4595" fillOpacity="0.375">
+            <animateTransform attributeName="transform" type="scale" begin="-0.25s" values="1.5 1.5;1 1" keyTimes="0;1" dur="1s" repeatCount="indefinite"></animateTransform>
+            <animate attributeName="fillOpacity" keyTimes="0;1" dur="1s" repeatCount="indefinite" values="1;0" begin="-0.25s"></animate>
+            </circle>
+            </g>
+            </g><g transform="translate(49.99999999999999,20)">
+            <g transform="rotate(270)">
+            <circle cx="0" cy="0" r="7" fill="#1c4595" fillOpacity="0.25">
+            <animateTransform attributeName="transform" type="scale" begin="-0.125s" values="1.5 1.5;1 1" keyTimes="0;1" dur="1s" repeatCount="indefinite"></animateTransform>
+            <animate attributeName="fillOpacity" keyTimes="0;1" dur="1s" repeatCount="indefinite" values="1;0" begin="-0.125s"></animate>
+            </circle>
+            </g>
+            </g><g transform="translate(71.21320343559643,28.78679656440357)">
+            <g transform="rotate(315)">
+            <circle cx="0" cy="0" r="7" fill="#1c4595" fillOpacity="0.125">
+            <animateTransform attributeName="transform" type="scale" begin="0s" values="1.5 1.5;1 1" keyTimes="0;1" dur="1s" repeatCount="indefinite"></animateTransform>
+            <animate attributeName="fillOpacity" keyTimes="0;1" dur="1s" repeatCount="indefinite" values="1;0" begin="0s"></animate>
+            </circle>
+            </g>
+            </g>
+        </svg>
     )
 }
-
 
 export default Spinner;
