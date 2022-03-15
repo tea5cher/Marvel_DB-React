@@ -7,6 +7,7 @@ import CharInfo from "../charInfo/CharInfo";
 import Spinner from "../spinner.js/Spinner";
 
 import decoration from '../../resources/img/vision.png';
+import ErrorBoundary from '../errorBoundary/ErrorBoundary';
 
 class App extends Component {
     state = {
@@ -24,14 +25,20 @@ class App extends Component {
         <div className="app">
             <AppHeader/>
             <main>
+                <ErrorBoundary>
                 <RandomChar/>
+                </ErrorBoundary>
                 <div className="char__content">
-                    <CharList
-                    onCharSelected = {this.onCharSelected}
-                    />
-                    <CharInfo
-                    charId = {this.state.selectedChar}
-                    />
+                    {/* <ErrorBoundary> */}
+                        <CharList
+                        onCharSelected = {this.onCharSelected}
+                        />
+                    {/* </ErrorBoundary> */}
+                    {/* <ErrorBoundary> */}
+                        <CharInfo
+                        charId = {this.state.selectedChar}
+                        />
+                    {/* </ErrorBoundary> */}
                 </div>
                 <img className="bg-decoration" src={decoration} alt="vision"/>
             </main>
