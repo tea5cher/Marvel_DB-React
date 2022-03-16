@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React,{ Component } from 'react';
 
 
 import Spinner from '../spinner.js/Spinner';
@@ -22,12 +22,15 @@ class CharList extends Component {
         newItemLoading: false,
         offset: 555,
         charEnded: false,
+        idImg: 0,
     }
+
+    myRef = React.createRef();
 
     marvelService = new MarvelService();
 
     componentDidMount() {
-        this.onRequest()   
+        this.onRequest()  
     }
 
 
@@ -84,18 +87,36 @@ class CharList extends Component {
         .catch(this.onError)
     }
 
+    onClickSelected = (item, items) => {
+        items.map(i=> { 
+            if (i.key==item.id) {
+                this.setState({
+                    idImg: item.id,
+                })
+                this.renderItems(items)
+            }
+        })
+
+    }
+    onClick = (item, items) => {
+        this.props.onCharSelected(item.id);
+        this.onClickSelected(item, items)
+    }
     renderItems(arr) {
+        const clazz = 'char__item'
+        const clazzn = 'char__item char__item_selected '
         const items =  arr.map((item) => {
             let imgStyle = {'objectFit' : 'cover'};
             if (item.thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
                 imgStyle = {'objectFit' : 'unset'};
-            }
-            
+        }
+    
             return (
                 <li 
-                    className="char__item"
+                    className={item.id == this.state.idImg ? clazzn : clazz}
                     key={item.id}
-                    onClick={() => this.props.onCharSelected(item.id)}
+                    onClick={() => this.onClick(item, items) }
+                    tabIndex={0}
                     >
                         <img src={item.thumbnail} alt={item.name} style={imgStyle}/>
                         <div className="char__name">{item.name}</div>
@@ -111,7 +132,7 @@ class CharList extends Component {
     }
 
     render() {
-
+        console.log('render');
         const {cardsData, loading, error, offset, newItemLoading, charEnded} = this.state
 
         const items = this.renderItems(cardsData);
