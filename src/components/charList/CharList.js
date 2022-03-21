@@ -1,108 +1,59 @@
-import React,{ Component } from 'react';
+import { useState, useEffect } from 'react';
 
 
-import Spinner from '../spinner.js/Spinner';
+import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
-import MarvelService from '../../services/MarvelService';
+import useMarvelService from '../../services/MarvelService';
 
 import './charList.scss';
 
 
 
-class CharList extends Component {
+const CharList = (props) => {
 
-    constructor(props) {
-        super(props);
-      }
+    const [cardsData, setCardsData ] = useState([]);
+    const [newItemLoading, setNewItemLoading ] = useState(false);
+    const [offset, setOffset ] = useState(555);
+    const [charEnded, setCharEnded ] = useState(false);
+    const [idImg, setIdImg ] = useState(0);
 
-    state = {
-        cardsData: [],
-        loading: true,
-        error: false,
-        newItemLoading: false,
-        offset: 555,
-        charEnded: false,
-        idImg: 0,
+    const {loading, error, getAllCharacters} = useMarvelService();
+
+    useEffect(()=> {
+        onRequest(offset, true);
+     }, [])
+
+    const onRequest = (offset, initial) => {
+        initial ? setNewItemLoading(false) : setNewItemLoading(true)
+        getAllCharacters(offset)
+            .then(onListLoaded)
     }
 
-    myRef = React.createRef();
-
-    marvelService = new MarvelService();
-
-    componentDidMount() {
-        this.onRequest()  
-    }
-
-
-    onRequest = (offset) => {
-        this.onCharListLoading();
-        this.marvelService.getAllCharacters(offset)
-        .then(this.onListLoaded)
-        .catch(this.onError)
-    }
-
-    onCharListLoading = () => {
-        this.setState({
-            newItemLoading: true,
-        })
-    }
-
-    onListLoaded = (newCardsData) => {
-
+    const onListLoaded = (newCardsData) => {
         let ended = false;
         if (newCardsData.length < 9) {
             ended = true;
         }
-
-
-        this.setState(({offset, cardsData, charEnded}) => ({
-            cardsData: [...cardsData, ...newCardsData],
-            loading: false,
-            newItemLoading: false,
-            offset: offset + 9,
-            charEnded: ended, 
-        }))
+        setCardsData(cardsData => [...cardsData, ...newCardsData])
+        setNewItemLoading(false)
+        setOffset(offset=>offset + 9)
+        setCharEnded(ended)
     }
 
-    onListAdd = (cardsData) => {
-        let arr = [...this.state.cardsData];
-        arr = [...arr, ...cardsData]
-        console.log(arr);
-        this.setState({
-            cardsData: arr,
-            loading: false,
-        })
-    }
-
-    onError = () => {
-        this.setState({
-            error: true,
-            loading: false
-        })
-    }
-
-    onLoadMore = () => {
-        this.marvelService.getAllCharacters()
-        .then(this.onListAdd)
-        .catch(this.onError)
-    }
-
-    onClickSelected = (item, items) => {
+    const onClickSelected = (item, items) => {
         items.map(i=> { 
-            if (i.key==item.id) {
-                this.setState({
-                    idImg: item.id,
-                })
-                this.renderItems(items)
+            if (i.key===item.id) {
+                setIdImg(idImg => item.id)
+                renderItems(items)
             }
         })
-
     }
-    onClick = (item, items) => {
-        this.props.onCharSelected(item.id);
-        this.onClickSelected(item, items)
+    const onClick = (item, items) => {
+        props.onCharSelected(item.id);
+        onClickSelected(item, items)
     }
-    renderItems(arr) {
+    function renderItems(arr) {
+        console.log(arr);
         const clazz = 'char__item'
         const clazzn = 'char__item char__item_selected '
         const items =  arr.map((item) => {
@@ -113,9 +64,9 @@ class CharList extends Component {
     
             return (
                 <li 
-                    className={item.id == this.state.idImg ? clazzn : clazz}
+                    className={item.id == idImg ? clazzn : clazz}
                     key={item.id}
-                    onClick={() => this.onClick(item, items) }
+                    onClick={() => onClick(item, items) }
                     tabIndex={0}
                     >
                         <img src={item.thumbnail} alt={item.name} style={imgStyle}/>
@@ -131,33 +82,26 @@ class CharList extends Component {
         )
     }
 
-    render() {
-        console.log('render');
-        const {cardsData, loading, error, offset, newItemLoading, charEnded} = this.state
+    const items = renderItems(cardsData);
 
-        const items = this.renderItems(cardsData);
+    const errorMessage = error ? <ErrorMessage/> : null;
+    const spinner = loading && !newItemLoading ? <Spinner/> : null;
 
-        const errorMessage = error ? <ErrorMessage/> : null;
-        const spinner = loading ? <Spinner/> : null;
-        const content = !(loading || error) ? items : null;
 
-        // this.onScroll();
-
-        return (
-            <div className="char__list">
-                {errorMessage}
-                {spinner}
-                {content}
-                <button 
-                onClick={() => this.onRequest(offset)} 
-                className="button button__main button__long"
-                style={{'display': charEnded ? 'none' : 'block'}}
-                disabled={newItemLoading}>
-                    <div className="inner">load more</div>
-                </button>
-            </div>
-        )
-    }
+    return (
+        <div className="char__list">
+            {errorMessage}
+            {spinner}
+            {items}
+            <button 
+            onClick={() => onRequest(offset)} 
+            className="button button__main button__long"
+            style={{'display': charEnded ? 'none' : 'block'}}
+            disabled={newItemLoading}>
+                <div className="inner">load more</div>
+            </button>
+        </div>
+    )
 }
 
 export default CharList;

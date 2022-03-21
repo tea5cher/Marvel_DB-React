@@ -1,90 +1,53 @@
-import { Component } from 'react'
+import { useState, useEffect} from 'react'
 
 import './charInfo.scss';
-import MarvelService from '../../services/MarvelService';
-import Spinner from '../spinner.js/Spinner';
+import useMarvelService from '../../services/MarvelService';
+import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import Skeleton from '../skeleton/Skeleton'
-import thor from '../../resources/img/thor.jpeg'
 
-class CharInfo extends Component {
-    constructor(props){
-        super(props);      
-    }
-    state = {
-        char: null,
-        loading: false,
-        error: false,
-    }
+const CharInfo = (props) => {
 
-    marvelService = new MarvelService();
+  
+    const [char, setChar] = useState(null);
 
-    componentDidMount() {
-        this.updateChar();
-    }
+    const {loading, error, getCharacter, clearError} = useMarvelService();
 
-    componentDidUpdate(prevProps, prevState) {
-        if (prevProps.charId !== this.props.charId) {
-            this.updateChar();
-        }
-    }
+    useEffect(()=>{
+        updateChar();
+    }, [props.charId])
 
-    updateChar = () => {
-        const {charId} = this.props;
+    const updateChar = () => {
+        const {charId} = props;
 
         if (!charId) {
             return
         }
 
-        this.onCharLoading();
+        clearError();
 
-        this.marvelService
-            .getCharacter(charId)
-            .then(this.onCharLoaded)
-            .catch(this.onError)
-        
+        getCharacter(charId)
+            .then(onCharLoaded)       
+}
+
+    const onCharLoaded = (char) => {
+        setChar(char);
     }
 
-    onCharLoaded = (char) => {
-        this.setState({
-            char: char,
-            loading: false,
-            error: false,
-        })
-    }
+    const skeleton = char || loading || error ? null : <Skeleton/>
+    const errorMessage = error ? <ErrorMessage/> : null
+    const spinner = loading ? <Spinner/> : null
+    const content = !(loading || error || !char) ? <View char={char}/> : null;
 
-    onError = () => {
-        this.setState({
-            loading: false,
-            error: true,
-        })
-    }
-
-    onCharLoading = () => {
-        this.setState({
-            loading: true,
-        })
-    }
-
-
-
-    render() {
-        const {char, loading, error} = this.state;
-
-        const skeleton = char || loading || error ? null : <Skeleton/>
-        const errorMessage = error ? <ErrorMessage/> : null
-        const spinner = loading ? <Spinner/> : null
-        const content = !(loading || error || !char) ? <View char={char}/> : null;
-
-        return (
-            <div className="char__info">
-               {skeleton}
-               {errorMessage}
-               {spinner}
-               {content}
-            </div>
-        )
-    }
+    return (
+        <div className="char__info">
+            {skeleton}
+            {errorMessage}
+            {spinner}
+            {content}
+        </div>
+    )
+    
 }
 
 const View = ({char}) => {
@@ -114,32 +77,21 @@ const View = ({char}) => {
            {description}
         </div>
         <div className="char__comics">Comics:</div>
+
         <ul className="char__comics-list">
-            {
-                (comics.length > 0 ? null : 'There is no comics for this character')
-            }
-            {
-
-                comics.map((item,i)=>{
-                    if (item[i] == null) {
-                        <li key={i} className="char__comics-item">
-                            No comicks
-                        </li>
-                    }
-                    if (i>9) {
-                        return
-                    }
-
-                    
-                    
-                    return (
-                        <li key={i} className="char__comics-item">
-                            {item.name}
-                        </li>
-                    )
-                })
-            }
-        </ul>
+                {comics.length > 0 ? null : 'There is no comics with this character'}
+                {
+                    comics.map((item, i) => {
+                        // eslint-disable-next-line
+                        if (i > 9) return;
+                        return (
+                            <li key={i} className="char__comics-item">
+                                {item.name}
+                            </li>
+                        )
+                    })
+                }                
+            </ul>
         </>
     )
 }
