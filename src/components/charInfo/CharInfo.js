@@ -1,4 +1,5 @@
 import { useState, useEffect} from 'react'
+import { NavLink } from 'react-router-dom';
 
 import './charInfo.scss';
 import useMarvelService from '../../services/MarvelService';
@@ -52,7 +53,15 @@ const CharInfo = (props) => {
 
 const View = ({char}) => {
     const {name, description, thumbnail, homepage, wiki, comics} = char;
-    console.log(comics);
+    comics.forEach(item=>{
+        let str = item.resourceURI;
+        // console.log(str.substr(str.length - 5));
+        // console.log(str);
+        let t = str.split('/')
+        // console.log(t);
+
+        console.log(item.resourceURI.split('/')[6])
+    });
     let imgStyle = {'objectFit' : 'cover'};
     if (thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
         imgStyle = {'objectFit' : 'unset'};
@@ -86,7 +95,7 @@ const View = ({char}) => {
                         if (i > 9) return;
                         return (
                             <li key={i} className="char__comics-item">
-                                {item.name}
+                                <NavLink className="comic__nav" to={`/comics/${item.resourceURI.split('/')[6]}`}>{item.name}</NavLink>
                             </li>
                         )
                     })
