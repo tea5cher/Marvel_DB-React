@@ -55,52 +55,49 @@ const View = ({char}) => {
     const {name, description, thumbnail, homepage, wiki, comics} = char;
     comics.forEach(item=>{
         let str = item.resourceURI;
-        // console.log(str.substr(str.length - 5));
-        // console.log(str);
         let t = str.split('/')
-        // console.log(t);
-
-        console.log(item.resourceURI.split('/')[6])
     });
     let imgStyle = {'objectFit' : 'cover'};
     if (thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
         imgStyle = {'objectFit' : 'unset'};
     }
     return (
-        <>
-         <div className="char__basics">
-            <img style={imgStyle} src={thumbnail} alt={name}/>
-            <div>
-                <div className="char__info-name">{name}</div>
-                <div className="char__btns">
-                    <a href={homepage} className="button button__main">
-                        <div className="inner">homepage</div>
-                    </a>
-                    <a href={wiki} className="button button__secondary">
-                        <div className="inner">wiki</div>
-                    </a>
+        <>  
+            
+            <div className="char__basics">
+                <img style={imgStyle} src={thumbnail} alt={name}/>
+                <div>
+                    <div className="char__info-name">{name}</div>
+                    <div className="char__btns">
+                        <a href={homepage} className="button button__main">
+                            <div className="inner">homepage</div>
+                        </a>
+                        <a href={wiki} className="button button__secondary">
+                            <div className="inner">wiki</div>
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div className="char__descr">
-           {description}
-        </div>
-        <div className="char__comics">Comics:</div>
+            <div className="char__descr">
+            {description}
+            </div>
+            <div className="char__comics">Comics:</div>
 
-        <ul className="char__comics-list">
-                {comics.length > 0 ? null : 'There is no comics with this character'}
-                {
-                    comics.map((item, i) => {
-                        // eslint-disable-next-line
-                        if (i > 9) return;
-                        return (
-                            <li key={i} className="char__comics-item">
-                                <NavLink className="comic__nav" to={`/comics/${item.resourceURI.split('/')[6]}`}>{item.name}</NavLink>
-                            </li>
-                        )
-                    })
-                }                
+            <ul className="char__comics-list">
+                    {comics.length > 0 ? null : 'There is no comics with this character'}
+                    {
+                        comics.map((item, i) => {
+                            // eslint-disable-next-line
+                            if (i > 9) return;
+                            return (
+                                <li key={i} className="char__comics-item">
+                                    <NavLink className="comic__nav" to={`/comics/${item.resourceURI.split('/')[6]}`}>{item.name}</NavLink>
+                                </li>
+                            )
+                        })
+                    }                
             </ul>
+            
         </>
     )
 }
